@@ -41,7 +41,15 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   }
 
   provisioner "file" {
-    source      = "./"
+    source      = "script/provisioner.sh"
+    destination = "provisioner.sh"
+  }
+
+  provisioner "remote-exec"{
+    inline = [
+      "chmod +x provisioner.sh",
+      "./provisioner.sh"
+    ]
   }
 }
 

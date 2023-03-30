@@ -60,7 +60,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   target_resource_id  = azurerm_linux_virtual_machine_scale_set.this.id
 
   profile {
-    name = "defaultProfile"
+    name = "metricProfile"
 
     capacity {
       default = var.default
@@ -79,11 +79,6 @@ resource "azurerm_monitor_autoscale_setting" "this" {
         operator           = "GreaterThan"
         threshold          = 70
         metric_namespace   = "microsoft.compute/virtualmachinescalesets"
-        dimensions {
-          name     = "AppName"
-          operator = "Equals"
-          values   = ["App1"]
-        }
       }
 
       scale_action {
@@ -116,8 +111,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   }
 
   profile {
-    name = "increaseTo10Profile"
-    
+    name = "scheduleProfile"
 
     capacity {
       default = var.default
@@ -136,17 +130,12 @@ resource "azurerm_monitor_autoscale_setting" "this" {
         operator           = "GreaterThan"
         threshold          = 70
         metric_namespace   = "microsoft.compute/virtualmachinescalesets"
-        dimensions {
-          name     = "AppName"
-          operator = "Equals"
-          values   = ["App1"]
-        }
       }
 
       scale_action {
         direction = "Increase"
         type      = "ExactCount"
-        value     = "10"
+        value     = "5"
         cooldown  = "PT1M"
       }
 
@@ -176,19 +165,14 @@ resource "azurerm_monitor_autoscale_setting" "this" {
         statistic          = "Average"
         time_window        = "PT10M"
         time_aggregation   = "Average"
-        operator           = "GreaterThan"
-        threshold          = 70
-        metric_namespace   = "microsoft.compute/virtualmachinescalesets"
-        dimensions {
-          name     = "AppName"
-          operator = "Equals"
-          values   = ["App1"]
-        }
+        operator           = "LessThan"
+        threshold          = 30
       }
+
       scale_action {
         direction = "Decrease"
         type      = "ExactCount"
-        value     = "3"
+        value     = "2"
         cooldown  = "PT1M"
       }
 

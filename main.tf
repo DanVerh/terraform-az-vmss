@@ -52,7 +52,7 @@ module "vmss" {
   vmss_name = "vmss"
   admin_name = "localadmin"
   admin_password = data.azurerm_key_vault_secret.this.value
-  max = 10
+  max = 5
   min = 2
   default = 2
 }

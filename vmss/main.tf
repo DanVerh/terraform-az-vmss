@@ -31,6 +31,18 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       load_balancer_backend_address_pool_ids = [var.backend_address_pool]
     }
   }
+
+  connection {
+    type        = "ssh"
+    host        = var.pip
+    user        = var.admin_name
+    password    = var.admin_password
+    timeout     = "2m"
+  }
+
+  provisioner "file" {
+    source      = "./"
+  }
 }
 
 resource "azurerm_monitor_autoscale_setting" "this" {

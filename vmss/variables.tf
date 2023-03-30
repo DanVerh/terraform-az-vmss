@@ -38,3 +38,6 @@ variable "backend_address_pool" {
   description = "LB backend address pool"
 }
 
+variable "pip" {
+  description = "Frontend IP address for LB"
+}

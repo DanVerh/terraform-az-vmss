@@ -29,6 +29,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary                                = true
       subnet_id                              = var.subnet_id
       load_balancer_backend_address_pool_ids = [var.backend_address_pool]
+      network_security_group_id              = var.sg_id
     }
   }
 

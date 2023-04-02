@@ -41,3 +41,7 @@ variable "backend_address_pool" {
 variable "pip" {
   description = "Frontend IP address for LB"
 }
+
+variable "sg_id" {
+  description = "SG ID for VMSS"
+}

@@ -57,6 +57,6 @@ module "vmss" {
   default              = 2
 }
 
-output "lb public ip" {
+output "lb_public_ip" {
   value = "Public IP: ${module.network.pip_id}"
 }

@@ -55,8 +55,8 @@ module "vmss" {
   max                  = 5
   min                  = 2
   default              = 2
-  sg_id = module.network.sg_id
-  pip = module.network.pip_address
+  sg_id                = module.network.sg_id
+  pip                  = module.network.pip_address
 }
 
 output "lb_public_ip" {

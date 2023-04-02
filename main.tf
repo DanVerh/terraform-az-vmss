@@ -28,8 +28,8 @@ module "lb" {
   rg_name       = module.rg.rg_name
   pip_id        = module.network.pip_id
   lb_name       = "lb"
-  frontend_port = 80
-  backend_port  = 80
+  app_frontend_port = 80
+  app_backend_port  = 3000
 }
 
 data "azurerm_key_vault" "this" {

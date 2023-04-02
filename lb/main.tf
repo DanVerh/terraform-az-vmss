@@ -22,12 +22,23 @@ resource "azurerm_lb_probe" "this" {
   port            = 80
 }
 
-resource "azurerm_lb_rule" "this" {
+resource "azurerm_lb_rule" "http" {
   loadbalancer_id                = azurerm_lb.this.id
   name                           = "http"
   protocol                       = "Tcp"
-  frontend_port                  = var.frontend_port
-  backend_port                   = var.backend_port
+  frontend_port                  = var.app_frontend_port
+  backend_port                   = var.app_backend_port
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.this.id]
+  frontend_ip_configuration_name = "PublicIPAddress"
+  probe_id                       = azurerm_lb_probe.this.id
+}
+
+resource "azurerm_lb_rule" "ssh" {
+  loadbalancer_id                = azurerm_lb.this.id
+  name                           = "ssh"
+  protocol                       = "Tcp"
+  frontend_port                  = 22
+  backend_port                   = 22
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.this.id]
   frontend_ip_configuration_name = "PublicIPAddress"
   probe_id                       = azurerm_lb_probe.this.id

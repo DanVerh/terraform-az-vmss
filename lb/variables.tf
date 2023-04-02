@@ -14,10 +14,10 @@ variable "lb_name" {
   description = "Load balancer name"
 }
 
-variable "frontend_port" {
+variable "app_frontend_port" {
   description = "Frontend LB port"
 }
 
-variable "backend_port" {
+variable "app_backend_port" {
   description = "Backend LB port"
 }

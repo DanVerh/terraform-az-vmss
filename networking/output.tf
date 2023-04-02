@@ -18,6 +18,10 @@ output "pip_id" {
   value = azurerm_public_ip.this.id
 }
 
+output "pip_address" {
+  value = azurerm_public_ip.this.ip_address
+}
+
 output "sg_id" {
   value = azurerm_network_security_group.this.id
 }

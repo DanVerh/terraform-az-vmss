@@ -29,7 +29,7 @@ module "lb" {
   pip_id = module.network.pip_id 
   lb_name = "lb"
   frontend_port = 80
-  backend_port = 80
+  backend_port = 3000
 }
 
 data "azurerm_key_vault" "this" {
@@ -52,7 +52,7 @@ module "vmss" {
   vmss_name = "vmss"
   admin_name = "danverh"
   admin_password = data.azurerm_key_vault_secret.this.value
-  max = 10
+  max = 5
   min = 2
   default = 2
 }

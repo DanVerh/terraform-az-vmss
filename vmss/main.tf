@@ -32,6 +32,19 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       #load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.this.id]
     }
   }
+  
+   extension {
+    name                    = "config-script"
+    publisher               = "Microsoft.Azure.Extensions"
+    type                    = "CustomScript"
+    type_handler_version    = "2.1"
+
+    settings = <<SETTINGS
+    {
+      "script": "${file("./configuration/script.sh")}"
+    }
+    SETTINGS
+  }
 }
 
 resource "azurerm_monitor_autoscale_setting" "this" {
@@ -182,5 +195,8 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       minutes  = [0]
   }
   }
+}
 
+output "app_public_ip" {
+  value = "Public IP of the app: ${module.network.pip_ip}"
 }

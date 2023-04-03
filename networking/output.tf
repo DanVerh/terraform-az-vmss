@@ -17,3 +17,7 @@ output "pip_name" {
 output "pip_id" {
   value = azurerm_public_ip.this.id
 }
+
+output "pip_ip" {
+  value = azurerm_public_ip.this.ip_address
+}

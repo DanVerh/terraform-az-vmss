@@ -31,7 +31,7 @@ resource "azurerm_lb_probe" "this" {
  name                = "http-probe"
  protocol            = "Http"
  request_path        = "/health"
- port                = 8080
+ port                = 80
 }
 
 

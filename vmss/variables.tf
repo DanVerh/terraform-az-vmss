@@ -38,15 +38,3 @@ variable "backend_address_pool" {
   description = "LB backend address pool"
 }
 
-variable "backend_address_ip" {
-  description = "LB backend address pool"
-  value = var.backend_address_pool[0]
-}
-
-variable "pip" {
-  description = "Frontend IP address for LB"
-}
-
-variable "sg_id" {
-  description = "SG ID for VMSS"
-}

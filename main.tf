@@ -5,31 +5,31 @@ provider "azurerm" {
 module "rg" {
   source = "./rg"
 
-  rg_name     = "vmss"
+  rg_name = "vmss"
   rg_location = "East US"
 }
 
 module "network" {
   source = "./networking"
 
-  rg_name        = module.rg.rg_name
-  location       = module.rg.rg_location
-  vnet_name      = "vnet"
-  vnet_address   = "10.0.0.0/26"
-  subnet_name    = "subnet1"
-  subnet_address = "10.0.0.0/28"
-  pip_name       = "pipdanverh"
+  rg_name = module.rg.rg_name
+  location = module.rg.rg_location 
+  vnet_name = "vnet"
+  vnet_address = "10.0.0.0/21"
+  subnet_name = "subnet1"
+  subnet_address = "10.0.0.0/24"
+  pip_name = "pipdanverh"
 }
 
 module "lb" {
   source = "./lb"
 
-  location      = module.rg.rg_location
-  rg_name       = module.rg.rg_name
-  pip_id        = module.network.pip_id
-  lb_name       = "lb"
-  app_frontend_port = 80
-  app_backend_port  = 3000
+  location = module.rg.rg_location
+  rg_name = module.rg.rg_name
+  pip_id = module.network.pip_id 
+  lb_name = "lb"
+  frontend_port = 80
+  backend_port = 80
 }
 
 data "azurerm_key_vault" "this" {
@@ -46,19 +46,13 @@ module "vmss" {
   source = "./vmss"
 
   backend_address_pool = module.lb.backend_address_pool
-  location             = module.rg.rg_location
-  rg_name              = module.rg.rg_name
-  subnet_id            = module.network.subnet_id
-  vmss_name            = "vmss"
-  admin_name           = "localadmin"
-  admin_password       = data.azurerm_key_vault_secret.this.value
-  max                  = 5
-  min                  = 2
-  default              = 2
-  sg_id                = module.network.sg_id
-  pip                  = module.network.pip_address
-}
-
-output "lb_public_ip" {
-  value = "Public IP: ${module.network.pip_address}"
+  location = module.rg.rg_location
+  rg_name = module.rg.rg_name
+  subnet_id = module.network.subnet_id 
+  vmss_name = "vmss"
+  admin_name = "danverh"
+  admin_password = data.azurerm_key_vault_secret.this.value
+  max = 10
+  min = 2
+  default = 2
 }

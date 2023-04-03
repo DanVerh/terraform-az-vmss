@@ -39,7 +39,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     host     = var.pip
     user     = var.admin_name
     password = var.admin_password
-    timeout  = "2m"
+    port = 50000
+    timeout  = "1m"
   }
 
   provisioner "file" {

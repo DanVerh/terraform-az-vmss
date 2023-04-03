@@ -32,19 +32,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       #load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.this.id]
     }
   }
-  
-   extension {
-    name                    = "config-script"
-    publisher               = "Microsoft.Azure.Extensions"
-    type                    = "CustomScript"
-    type_handler_version    = "2.1"
-
-    settings = <<SETTINGS
-    {
-      "script": "${file("./configuration/script.sh")}"
-    }
-    SETTINGS
-  }
 }
 
 resource "azurerm_monitor_autoscale_setting" "this" {
@@ -110,7 +97,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   }
 
   profile {
-    name = "increaseTo10Profile"
+    name = "increaseTo5Profile"
     
 
     capacity {
@@ -140,7 +127,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       scale_action {
         direction = "Increase"
         type      = "ExactCount"
-        value     = "10"
+        value     = "5"
         cooldown  = "PT1M"
       }
 
@@ -195,6 +182,22 @@ resource "azurerm_monitor_autoscale_setting" "this" {
       minutes  = [0]
   }
   }
+}
+
+resource "azurerm_virtual_machine_extension" "this" {
+  name                 = "custom-script"
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.this.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.3"
+
+  settings = <<SETTINGS
+    {
+        "fileUris": [
+            "https://danverh.blob.core.windows.net/script/script.sh"
+        ]
+    }
+SETTINGS
 }
 
 output "app_public_ip" {

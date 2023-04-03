@@ -30,13 +30,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary                                = true
       subnet_id                              = var.subnet_id
       load_balancer_backend_address_pool_ids = [var.backend_address_pool]
-
     }
   }
 
   connection {
     type     = "ssh"
-    host     = var.pip
+    host     = var.backend_address_ip
     user     = var.admin_name
     password = var.admin_password
     timeout  = "2m"

@@ -56,3 +56,7 @@ module "vmss" {
   min = 2
   default = 2
 }
+
+output "app_public_ip" {
+  value = "Public IP of the app: ${module.network.pip_ip}"
+}

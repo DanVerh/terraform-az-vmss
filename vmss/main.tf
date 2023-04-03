@@ -184,7 +184,7 @@ resource "azurerm_monitor_autoscale_setting" "this" {
   }
 }
 
-resource "azurerm_virtual_machine_extension" "this" {
+resource "azurerm_virtual_machine_scale_set_extension" "this" {
   name                 = "custom-script"
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.this.id
   publisher            = "Microsoft.Azure.Extensions"
@@ -200,6 +200,3 @@ resource "azurerm_virtual_machine_extension" "this" {
 SETTINGS
 }
 
-output "app_public_ip" {
-  value = "Public IP of the app: ${module.network.pip_ip}"
-}

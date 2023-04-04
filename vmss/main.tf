@@ -3,7 +3,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   location            = var.location
   resource_group_name = var.rg_name
   instances = 2
-  sku = "Standard_F2"
+  sku = "Standard_B1ms"
   disable_password_authentication = false
   admin_username       = var.admin_name
   admin_password       = var.admin_password
@@ -189,14 +189,13 @@ resource "azurerm_virtual_machine_scale_set_extension" "this" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.this.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
-  type_handler_version = "2.3"
+  type_handler_version = "2.0"
 
-  settings = <<SETTINGS
+  protected_settings = <<PROTECTED_SETTINGS
     {
-        "fileUris": [
-            "https://danverh.blob.core.windows.net/script/script.sh"
-        ]
+      "fileUris": ["https://danverh.blob.core.windows.net/script/script.sh"],
+      "commandToExecute": "sh script.sh"
     }
-SETTINGS
+PROTECTED_SETTINGS
 }
 

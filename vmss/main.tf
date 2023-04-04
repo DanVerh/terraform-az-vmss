@@ -3,7 +3,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   location            = var.location
   resource_group_name = var.rg_name
   instances = 2
-  sku = "Standard_B1ms"
+  sku = "Standard_F2"
   disable_password_authentication = false
   admin_username       = var.admin_name
   admin_password       = var.admin_password

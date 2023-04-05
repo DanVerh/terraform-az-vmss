@@ -11,7 +11,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
 
@@ -189,13 +189,15 @@ resource "azurerm_virtual_machine_scale_set_extension" "this" {
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.this.id
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
-  type_handler_version = "2.0"
+  type_handler_version = "2.1"
+  auto_upgrade_minor_version = true
+  #automatic_upgrade_enabled = true
 
-  protected_settings = <<PROTECTED_SETTINGS
+  settings = jsonencode(
     {
       "fileUris": ["https://danverh.blob.core.windows.net/script/script.sh"],
-      "commandToExecute": "sh script.sh"
+      "commandToExecute": "bash script.sh"
     }
-PROTECTED_SETTINGS
+)
 }
 

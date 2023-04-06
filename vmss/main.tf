@@ -7,6 +7,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   disable_password_authentication = false
   admin_username       = var.admin_name
   admin_password       = var.admin_password
+  upgrade_mode = "Automatic"
 
   source_image_reference {
     publisher = "Canonical"
@@ -29,7 +30,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary                                = true
       subnet_id                              = var.subnet_id
       load_balancer_backend_address_pool_ids = [var.backend_address_pool]
-      #load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.this.id]
     }
   }
 }
@@ -190,8 +190,6 @@ resource "azurerm_virtual_machine_scale_set_extension" "this" {
   publisher            = "Microsoft.Azure.Extensions"
   type                 = "CustomScript"
   type_handler_version = "2.1"
-  auto_upgrade_minor_version = true
-  #automatic_upgrade_enabled = true
 
   settings = jsonencode(
     {

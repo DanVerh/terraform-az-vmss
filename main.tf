@@ -29,7 +29,7 @@ module "lb" {
   pip_id = module.network.pip_id 
   lb_name = "lb"
   frontend_port = 80
-  backend_port = 3000
+  backend_port = 80
 }
 
 data "azurerm_key_vault" "this" {
